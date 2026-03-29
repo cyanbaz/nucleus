@@ -1,5 +1,3 @@
-package de.cyanbaz.plugins
-
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -13,15 +11,16 @@ import org.gradle.kotlin.dsl.getByType
 abstract class NucleusKotlinPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit =
         with(target) {
+            pluginManager.apply("nucleus-spotless")
             pluginManager.apply("org.jetbrains.kotlin.jvm")
             pluginManager.apply("org.jetbrains.kotlin.plugin.spring")
 
-            val projectLibs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             extensions.configure<JavaPluginExtension> {
                 toolchain.languageVersion.set(
                     JavaLanguageVersion.of(
-                        projectLibs
+                        libs
                             .findVersion("java")
                             .get()
                             .requiredVersion
@@ -31,8 +30,7 @@ abstract class NucleusKotlinPlugin : Plugin<Project> {
             }
 
             dependencies {
-                add("implementation", projectLibs.findLibrary("kotlin.reflect").get())
-                add("implementation", projectLibs.findLibrary("jackson.module.kotlin").get())
+                add("implementation", libs.findLibrary("kotlin.reflect").get())
             }
         }
 }

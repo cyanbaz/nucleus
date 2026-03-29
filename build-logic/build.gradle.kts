@@ -7,17 +7,33 @@ repositories {
 
 gradlePlugin {
     plugins {
+        register("nucleus-spotless") {
+            id = "nucleus-spotless"
+            implementationClass = "NucleusSpotlessPlugin"
+        }
         register("nucleus-kotlin") {
             id = "nucleus-kotlin"
-            implementationClass = "de.cyanbaz.plugins.NucleusKotlinPlugin"
+            implementationClass = "NucleusKotlinPlugin"
+        }
+        register("nucleus-spring") {
+            id = "nucleus-spring"
+            implementationClass = "NucleusSpringPlugin"
+        }
+        register("nucleus-test") {
+            id = "nucleus-test"
+            implementationClass = "NucleusTestPlugin"
         }
         register("nucleus-spring-boot") {
             id = "nucleus-spring-boot"
-            implementationClass = "de.cyanbaz.plugins.NucleusSpringBootPlugin"
+            implementationClass = "NucleusSpringBootPlugin"
         }
-        register("nucleus-base") {
-            id = "nucleus-base"
-            implementationClass = "de.cyanbaz.plugins.NucleusBasePlugin"
+        register("nucleus-spring-test") {
+            id = "nucleus-spring-test"
+            implementationClass = "NucleusSpringTestPlugin"
+        }
+        register("nucleus-jacoco") {
+            id = "nucleus-jacoco"
+            implementationClass = "NucleusJacocoPlugin"
         }
     }
 }
@@ -25,9 +41,9 @@ gradlePlugin {
 dependencies {
     implementation(plugin(libs.plugins.kotlin.jvm))
     implementation(plugin(libs.plugins.kotlin.plugin.spring))
-    implementation(plugin(libs.plugins.org.springframework.boot))
-    implementation(plugin(libs.plugins.io.spring.dependency.management))
-    implementation(plugin(libs.plugins.com.diffplug.spotless))
+    implementation(plugin(libs.plugins.spring.boot))
+    implementation(plugin(libs.plugins.spring.dependency.management))
+    implementation(plugin(libs.plugins.spotless))
 }
 
 fun plugin(plugin: Provider<PluginDependency>) =
