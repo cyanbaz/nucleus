@@ -1,0 +1,124 @@
+# ------------------------------
+
+# Gradle
+
+# ------------------------------
+
+.gradle/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Gradle cache (optional, aber meistens sinnvoll)
+
+.gradle-cache/
+
+# ------------------------------
+
+# IntelliJ IDEA
+
+# ------------------------------
+
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# ------------------------------
+
+# Eclipse / STS
+
+# ------------------------------
+
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated/
+.springBeans
+.sts4-cache/
+
+# ------------------------------
+
+# VS Code
+
+# ------------------------------
+
+.vscode/
+
+# ------------------------------
+
+# NetBeans
+
+# ------------------------------
+
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# ------------------------------
+
+# Generic build/output folders
+
+# ------------------------------
+
+**/out/
+**/bin/
+**/target/
+
+# ------------------------------
+
+# Kotlin
+
+# ------------------------------
+
+.kotlin/
+
+# ------------------------------
+
+# Logs & temp files
+
+# ------------------------------
+
+*.log
+*.tmp
+*.swp
+*.swo
+*~
+
+# ------------------------------
+
+# OS-specific files
+
+# ------------------------------
+
+.DS_Store
+Thumbs.db
+
+# ------------------------------
+
+# Environment / secrets
+
+# ------------------------------
+
+.env
+.env.*
+*.local
+
+# ------------------------------
+
+# Optional: Test reports
+
+# ------------------------------
+
+**/test-results/
+**/reports/
+
+# ------------------------------
+
+# Optional: Dependency locks (nur wenn du sie NICHT versionieren willst)
+
+# ------------------------------
+
+# gradle.lockfile
