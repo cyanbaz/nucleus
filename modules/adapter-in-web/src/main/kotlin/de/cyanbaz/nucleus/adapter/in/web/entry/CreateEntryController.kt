@@ -1,0 +1,36 @@
+package de.cyanbaz.nucleus.adapter.`in`.web.entry
+
+import de.cyanbaz.nucleus.application.entry.command.CreateEntryCommand
+import de.cyanbaz.nucleus.application.entry.port.`in`.CreateEntryUseCase
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
+
+@RestController
+@RequestMapping("/api/entries")
+class CreateEntryController(
+    private val createEntryUseCase: CreateEntryUseCase,
+) {
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    fun create(
+        @RequestBody request: CreateEntryRequest,
+    ): CreateEntryResponse {
+        val command =
+            CreateEntryCommand(
+                title = request.title,
+                content = request.content,
+                type = request.type,
+                tags = request.tags,
+            )
+
+        val entryId = createEntryUseCase.create(command)
+
+        return CreateEntryResponse(
+            id = entryId.toString(),
+        )
+    }
+}
