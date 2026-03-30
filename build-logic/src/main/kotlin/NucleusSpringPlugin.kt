@@ -7,6 +7,5 @@ abstract class NucleusSpringPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply("nucleus-kotlin")
             pluginManager.apply("org.jetbrains.kotlin.plugin.spring")
-            pluginManager.apply("nucleus-spring-test")
         }
 }

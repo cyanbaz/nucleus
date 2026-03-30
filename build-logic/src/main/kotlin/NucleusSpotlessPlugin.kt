@@ -1,3 +1,4 @@
+import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -8,16 +9,16 @@ abstract class NucleusSpotlessPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply("com.diffplug.spotless")
 
-            extensions.configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+            extensions.configure<SpotlessExtension> {
                 kotlin {
                     ktlint()
                     target("**/src/**/*.kt")
-                    targetExclude("**/build/**")
+                    targetExclude("build/**/*.kt")
                 }
                 kotlinGradle {
                     ktlint()
-                    target("*.gradle.kts", "**/*.gradle.kts")
-                    targetExclude("**/build/**")
+                    target("**/*.gradle.kts")
+                    targetExclude("build/**/*.gradle.kts")
                 }
                 yaml {
                     target("**/*.yaml")
@@ -29,7 +30,7 @@ abstract class NucleusSpotlessPlugin : Plugin<Project> {
                         .yamlFeature("SPLIT_LINES", false)
                 }
                 json {
-                    target("**/*.json", "**/*.json5")
+                    target("*.json", "*.json5")
                     gson().indentWithSpaces(6).sortByKeys().escapeHtml()
                 }
             }
