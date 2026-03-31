@@ -1,4 +1,4 @@
-package de.cyanbaz.nucleus.adapter.`in`.web.entry
+package de.cyanbaz.nucleus.adapter.`in`.web.entry.create
 
 import de.cyanbaz.nucleus.application.entry.command.CreateEntryCommand
 import de.cyanbaz.nucleus.application.entry.port.`in`.CreateEntryUseCase

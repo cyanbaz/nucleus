@@ -11,9 +11,9 @@ import org.gradle.kotlin.dsl.getByType
 abstract class NucleusKotlinPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit =
         with(target) {
-            pluginManager.apply("nucleus-spotless")
             pluginManager.apply("org.jetbrains.kotlin.jvm")
             pluginManager.apply("org.jetbrains.kotlin.plugin.spring")
+            pluginManager.apply("nucleus-spotless")
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 

@@ -1,5 +1,13 @@
 plugins { `kotlin-dsl` }
 
+kotlin {
+    jvmToolchain(
+        libs.versions.java
+            .get()
+            .toInt(),
+    )
+}
+
 repositories {
     gradlePluginPortal()
     mavenCentral()

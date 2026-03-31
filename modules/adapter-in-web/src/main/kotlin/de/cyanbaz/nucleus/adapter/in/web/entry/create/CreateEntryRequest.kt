@@ -1,4 +1,4 @@
-package de.cyanbaz.nucleus.adapter.`in`.web.entry
+package de.cyanbaz.nucleus.adapter.`in`.web.entry.create
 
 import de.cyanbaz.nucleus.domain.entry.EntryType
 

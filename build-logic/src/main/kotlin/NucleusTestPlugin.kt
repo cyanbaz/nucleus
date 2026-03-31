@@ -4,8 +4,8 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.jvm.JvmTestSuite
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.getting
 import org.gradle.kotlin.dsl.invoke
+import org.gradle.kotlin.dsl.withType
 import org.gradle.testing.base.TestingExtension
 
 @Suppress("unused", "UnstableApiUsage")
@@ -18,7 +18,7 @@ abstract class NucleusTestPlugin : Plugin<Project> {
 
             extensions.configure<TestingExtension> {
                 suites {
-                    getting(JvmTestSuite::class) {
+                    withType<JvmTestSuite> {
                         useJUnitJupiter()
                         dependencies { implementation(libs.findLibrary("assertj.core").get()) }
                     }

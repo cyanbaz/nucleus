@@ -3,6 +3,8 @@ package de.cyanbaz.nucleus.config
 import EntryService
 import de.cyanbaz.nucleus.adapter.out.memory.entry.InMemoryEntryRepository
 import de.cyanbaz.nucleus.application.entry.port.`in`.CreateEntryUseCase
+import de.cyanbaz.nucleus.application.entry.port.`in`.GetEntryUseCase
+import de.cyanbaz.nucleus.application.entry.port.`in`.ListEntriesUseCase
 import de.cyanbaz.nucleus.domain.entry.EntryRepository
 import java.time.Clock
 import org.springframework.context.annotation.Bean
@@ -14,10 +16,19 @@ class EntryConfiguration {
     fun entryRepository(): EntryRepository = InMemoryEntryRepository()
 
     @Bean
-    fun createEntryUseCase(
+    fun entryService(
         entryRepository: EntryRepository,
         clock: Clock,
-    ): CreateEntryUseCase = EntryService(entryRepository, clock)
+    ): EntryService = EntryService(entryRepository, clock)
+
+    @Bean
+    fun createEntryUseCase(entryService: EntryService): CreateEntryUseCase = entryService
+
+    @Bean
+    fun getEntryUseCase(entryService: EntryService): GetEntryUseCase = entryService
+
+    @Bean
+    fun listEntriesUseCase(entryService: EntryService): ListEntriesUseCase = entryService
 
     @Bean
     fun clock(): Clock = Clock.systemUTC()

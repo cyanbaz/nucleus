@@ -16,7 +16,6 @@ abstract class NucleusSpringTestPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit =
         with(target) {
             pluginManager.apply("jvm-test-suite")
-            pluginManager.apply("nucleus-jacoco")
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
@@ -49,5 +48,6 @@ abstract class NucleusSpringTestPlugin : Plugin<Project> {
                     }
                 }
             }
+            pluginManager.apply("nucleus-jacoco")
         }
 }

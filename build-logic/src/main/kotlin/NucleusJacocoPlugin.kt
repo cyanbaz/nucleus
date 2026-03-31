@@ -15,7 +15,6 @@ abstract class NucleusJacocoPlugin : Plugin<Project> {
             val sourceSets = extensions.getByType<SourceSetContainer>()
 
             val testTask = tasks.named("test")
-
             val integrationTestTask = tasks.findByName("integrationTest")
 
             tasks.named<JacocoReport>("jacocoTestReport") {
@@ -34,8 +33,7 @@ abstract class NucleusJacocoPlugin : Plugin<Project> {
                 classDirectories.setFrom(
                     files(
                         fileTree(layout.buildDirectory.dir("classes/kotlin/main")) {
-                            exclude("**/Nucleus*.class")
-                            exclude("**/generated/**")
+                            exclude("**/NucleusApplication*.class", "**/generated/**")
                         },
                         fileTree(layout.buildDirectory.dir("classes/java/main")) {
                             exclude("**/generated/**")
@@ -70,8 +68,7 @@ abstract class NucleusJacocoPlugin : Plugin<Project> {
                 classDirectories.setFrom(
                     files(
                         fileTree(layout.buildDirectory.dir("classes/kotlin/main")) {
-                            exclude("**/Nucleus*.class")
-                            exclude("**/generated/**")
+                            exclude("**/NucleusApplication*.class", "**/generated/**")
                         },
                         fileTree(layout.buildDirectory.dir("classes/java/main")) {
                             exclude("**/generated/**")
@@ -82,7 +79,7 @@ abstract class NucleusJacocoPlugin : Plugin<Project> {
                 violationRules {
                     rule {
                         limit {
-                            minimum = "0.0".toBigDecimal()
+                            minimum = "0.5".toBigDecimal()
                         }
                     }
                 }

@@ -16,10 +16,8 @@ spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 [libraries]
 spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
 
-spring-boot-starter = { group = "org.springframework.boot", name = "spring-boot-starter" }
 spring-boot-starter-webmvc = { group = "org.springframework.boot", name = "spring-boot-starter-webmvc" }
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
-spring-boot-starter-webmvc-test = { group = "org.springframework.boot", name = "spring-boot-starter-webmvc-test" }
 
 spring-web = { group = "org.springframework", name = "spring-web" }
 
