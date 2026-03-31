@@ -5,6 +5,7 @@ spring-boot = "4.0.5"
 spring-dependency-management = "1.1.7"
 spotless = "8.4.0"
 assertj = "3.27.7"
+mockito = "6.3.0"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -18,9 +19,11 @@ spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-depe
 
 spring-boot-starter-webmvc = { group = "org.springframework.boot", name = "spring-boot-starter-webmvc" }
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+spring-boot-starter-webmvc-test = { group = "org.springframework.boot", name = "spring-boot-starter-webmvc-test" }
 
 spring-web = { group = "org.springframework", name = "spring-web" }
 
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect" }
 jackson-module-kotlin = { group = "tools.jackson.module", name = "jackson-module-kotlin" }
 assertj-core = { group = "org.assertj", name = "assertj-core", version.ref = "assertj" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito" }

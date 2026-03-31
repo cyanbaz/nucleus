@@ -1,3 +1,5 @@
+package de.cyanbaz.nucleus.application.entry.service
+
 import de.cyanbaz.nucleus.application.entry.command.CreateEntryCommand
 import de.cyanbaz.nucleus.application.entry.port.`in`.CreateEntryUseCase
 import de.cyanbaz.nucleus.application.entry.port.`in`.GetEntryUseCase

@@ -1,9 +1,11 @@
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.SourceSetContainer
-import org.gradle.kotlin.dsl.get
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.named
+import org.gradle.kotlin.dsl.withType
+import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
@@ -12,68 +14,59 @@ abstract class NucleusJacocoPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit =
         with(target) {
             pluginManager.apply("jacoco")
+
             val sourceSets = extensions.getByType<SourceSetContainer>()
+            val mainSourceSet = sourceSets.named("main")
 
-            val testTask = tasks.named("test")
-            val integrationTestTask = tasks.findByName("integrationTest")
-
-            tasks.named<JacocoReport>("jacocoTestReport") {
-                dependsOn(testTask)
-
-                integrationTestTask?.let {
-                    dependsOn(it)
+            val testTasks =
+                tasks.withType<Test>().matching {
+                    it.name == TestSuites.TEST || it.name == TestSuites.INTEGRATION_TEST
                 }
 
-                executionData.setFrom(
-                    fileTree(layout.buildDirectory.dir("jacoco")) {
-                        include("*.exec")
+            val coverageExcludes =
+                listOf(
+                    "**/*Application.class",
+                    "**/generated/**",
+                )
+
+            tasks.named<JacocoReport>("jacocoTestReport") {
+                dependsOn(testTasks)
+
+                executionData.from(
+                    testTasks.mapNotNull { testTask ->
+                        testTask.extensions.findByType(JacocoTaskExtension::class.java)?.destinationFile
                     },
                 )
 
-                classDirectories.setFrom(
-                    files(
-                        fileTree(layout.buildDirectory.dir("classes/kotlin/main")) {
-                            exclude("**/NucleusApplication*.class", "**/generated/**")
-                        },
-                        fileTree(layout.buildDirectory.dir("classes/java/main")) {
-                            exclude("**/generated/**")
-                        },
-                    ),
+                val main = mainSourceSet.get()
+                sourceDirectories.from(main.allSource.srcDirs)
+                classDirectories.from(
+                    main.output.classesDirs.asFileTree.matching {
+                        coverageExcludes.forEach(::exclude)
+                    },
                 )
-
-                sourceDirectories.setFrom(sourceSets["main"].allSource.srcDirs)
 
                 reports {
                     xml.required.set(true)
+                    html.required.set(true)
                     csv.required.set(false)
-                    html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
                 }
             }
 
             tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
-                dependsOn(testTask)
+                dependsOn(testTasks)
 
-                integrationTestTask?.let {
-                    dependsOn(it)
-                }
-
-                finalizedBy(tasks.named("jacocoTestReport"))
-
-                executionData.setFrom(
-                    fileTree(layout.buildDirectory.dir("jacoco")) {
-                        include("*.exec")
+                executionData.from(
+                    testTasks.mapNotNull { testTask ->
+                        testTask.extensions.findByType(JacocoTaskExtension::class.java)?.destinationFile
                     },
                 )
 
-                classDirectories.setFrom(
-                    files(
-                        fileTree(layout.buildDirectory.dir("classes/kotlin/main")) {
-                            exclude("**/NucleusApplication*.class", "**/generated/**")
-                        },
-                        fileTree(layout.buildDirectory.dir("classes/java/main")) {
-                            exclude("**/generated/**")
-                        },
-                    ),
+                val main = mainSourceSet.get()
+                classDirectories.from(
+                    main.output.classesDirs.asFileTree.matching {
+                        coverageExcludes.forEach(::exclude)
+                    },
                 )
 
                 violationRules {
@@ -85,8 +78,12 @@ abstract class NucleusJacocoPlugin : Plugin<Project> {
                 }
             }
 
+            tasks.named("jacocoTestCoverageVerification") {
+                finalizedBy("jacocoTestReport")
+            }
+
             tasks.named("check") {
-                dependsOn(tasks.named("jacocoTestCoverageVerification"))
+                dependsOn("jacocoTestCoverageVerification")
             }
         }
 }

@@ -15,23 +15,19 @@ import org.gradle.testing.base.TestingExtension
 abstract class NucleusSpringTestPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit =
         with(target) {
-            pluginManager.apply("jvm-test-suite")
+            pluginManager.apply("nucleus-test")
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             extensions.configure<TestingExtension> {
                 suites {
-                    val test by
-                        getting(JvmTestSuite::class) {
-                            useJUnitJupiter()
-                            dependencies { implementation(libs.findLibrary("assertj.core").get()) }
-                        }
+                    val test by getting(JvmTestSuite::class)
 
-                    register<JvmTestSuite>("integrationTest") {
+                    register<JvmTestSuite>(TestSuites.INTEGRATION_TEST) {
                         dependencies {
                             implementation(project())
                             implementation(platform(libs.findLibrary("spring.boot.bom").get()))
-                            implementation(libs.findLibrary("spring.boot.starter.test").get())
+                            implementation(libs.findLibrary("mockito.kotlin").get())
                         }
 
                         targets {
@@ -48,6 +44,5 @@ abstract class NucleusSpringTestPlugin : Plugin<Project> {
                     }
                 }
             }
-            pluginManager.apply("nucleus-jacoco")
         }
 }

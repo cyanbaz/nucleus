@@ -13,14 +13,17 @@ abstract class NucleusTestPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit =
         with(target) {
             pluginManager.apply("jvm-test-suite")
-            pluginManager.apply("nucleus-jacoco")
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             extensions.configure<TestingExtension> {
                 suites {
-                    withType<JvmTestSuite> {
+                    withType(
+                        JvmTestSuite::class,
+                    ).matching { it.name in listOf(TestSuites.TEST, TestSuites.INTEGRATION_TEST) }.configureEach {
                         useJUnitJupiter()
-                        dependencies { implementation(libs.findLibrary("assertj.core").get()) }
+                        dependencies {
+                            implementation(libs.findLibrary("assertj.core").get())
+                        }
                     }
                 }
             }
