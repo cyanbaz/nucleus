@@ -2,13 +2,14 @@ package de.cyanbaz.nucleus.application.entry.service
 
 import de.cyanbaz.nucleus.application.entry.command.CreateEntryCommand
 import de.cyanbaz.nucleus.application.entry.command.toDomainType
-import de.cyanbaz.nucleus.application.entry.port.`in`.CreateEntryResult
-import de.cyanbaz.nucleus.application.entry.port.`in`.CreateEntryUseCase
-import de.cyanbaz.nucleus.application.entry.port.`in`.GetEntryResult
-import de.cyanbaz.nucleus.application.entry.port.`in`.GetEntryUseCase
-import de.cyanbaz.nucleus.application.entry.port.`in`.ListEntriesResult
-import de.cyanbaz.nucleus.application.entry.port.`in`.ListEntriesUseCase
-import de.cyanbaz.nucleus.application.entry.port.out.EntryRepository
+import de.cyanbaz.nucleus.application.entry.port.inbound.CreateEntryResult
+import de.cyanbaz.nucleus.application.entry.port.inbound.CreateEntryUseCase
+import de.cyanbaz.nucleus.application.entry.port.inbound.GetEntryResult
+import de.cyanbaz.nucleus.application.entry.port.inbound.GetEntryUseCase
+import de.cyanbaz.nucleus.application.entry.port.inbound.ListEntriesResult
+import de.cyanbaz.nucleus.application.entry.port.inbound.ListEntriesUseCase
+import de.cyanbaz.nucleus.application.entry.port.inbound.ListEntryItem
+import de.cyanbaz.nucleus.application.entry.port.outbound.EntryRepository
 import de.cyanbaz.nucleus.domain.entry.Content
 import de.cyanbaz.nucleus.domain.entry.Entry
 import de.cyanbaz.nucleus.domain.entry.EntryId
@@ -51,12 +52,10 @@ class EntryService(
         ListEntriesResult(
             entries =
                 repository.findAll().map { entry ->
-                    GetEntryResult(
+                    ListEntryItem(
                         id = entry.id.toString(),
                         title = entry.title.value,
-                        content = entry.content.value,
                         type = entry.type.name,
-                        tags = entry.tags.map { it.value }.toSet(),
                     )
                 },
         )

@@ -2,10 +2,11 @@ package de.cyanbaz.nucleus.application.entry.service
 
 import de.cyanbaz.nucleus.application.entry.command.CreateEntryCommand
 import de.cyanbaz.nucleus.application.entry.command.CreateEntryTypeCommand
-import de.cyanbaz.nucleus.application.entry.port.`in`.CreateEntryResult
-import de.cyanbaz.nucleus.application.entry.port.`in`.GetEntryResult
-import de.cyanbaz.nucleus.application.entry.port.`in`.ListEntriesResult
-import de.cyanbaz.nucleus.application.entry.port.out.EntryRepository
+import de.cyanbaz.nucleus.application.entry.port.inbound.CreateEntryResult
+import de.cyanbaz.nucleus.application.entry.port.inbound.GetEntryResult
+import de.cyanbaz.nucleus.application.entry.port.inbound.ListEntriesResult
+import de.cyanbaz.nucleus.application.entry.port.inbound.ListEntryItem
+import de.cyanbaz.nucleus.application.entry.port.outbound.EntryRepository
 import de.cyanbaz.nucleus.domain.entry.Content
 import de.cyanbaz.nucleus.domain.entry.Entry
 import de.cyanbaz.nucleus.domain.entry.EntryId
@@ -116,19 +117,15 @@ class EntryServiceTest {
             ListEntriesResult(
                 entries =
                     listOf(
-                        GetEntryResult(
+                        ListEntryItem(
                             id = firstEntry.id.toString(),
                             title = "Architecture",
-                            content = "Hexagonal architecture",
                             type = "ARTICLE",
-                            tags = setOf("architecture"),
                         ),
-                        GetEntryResult(
+                        ListEntryItem(
                             id = secondEntry.id.toString(),
                             title = "Gradle",
-                            content = "Convention plugins and version catalogs",
                             type = "NOTE",
-                            tags = setOf("gradle"),
                         ),
                     ),
             ),
