@@ -1,6 +1,5 @@
 package de.cyanbaz.nucleus.adapter.inbound.web.entry.get
 
-import de.cyanbaz.nucleus.adapter.inbound.web.entry.EntryResponse
 import de.cyanbaz.nucleus.application.entry.port.inbound.GetEntryUseCase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,10 +15,10 @@ class GetEntryController(
     @GetMapping("/{id}")
     fun getById(
         @PathVariable id: String,
-    ): ResponseEntity<EntryResponse> =
+    ): ResponseEntity<GetEntryResponse> =
         getEntryUseCase.get(id)?.let { entry ->
             ResponseEntity.ok(
-                EntryResponse(
+                GetEntryResponse(
                     id = entry.id,
                     title = entry.title,
                     content = entry.content,

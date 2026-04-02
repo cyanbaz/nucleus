@@ -1,6 +1,6 @@
-package de.cyanbaz.nucleus.adapter.inbound.web.entry
+package de.cyanbaz.nucleus.adapter.inbound.web.entry.get
 
-data class EntryResponse(
+data class GetEntryResponse(
     val id: String,
     val title: String,
     val content: String,
