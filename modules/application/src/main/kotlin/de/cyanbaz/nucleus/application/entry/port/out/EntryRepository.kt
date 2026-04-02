@@ -1,4 +1,7 @@
-package de.cyanbaz.nucleus.domain.entry
+package de.cyanbaz.nucleus.application.entry.port.out
+
+import de.cyanbaz.nucleus.domain.entry.Entry
+import de.cyanbaz.nucleus.domain.entry.EntryId
 
 interface EntryRepository {
     fun save(entry: Entry): Entry

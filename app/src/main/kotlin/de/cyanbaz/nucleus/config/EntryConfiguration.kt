@@ -4,8 +4,8 @@ import de.cyanbaz.nucleus.adapter.out.memory.entry.InMemoryEntryRepository
 import de.cyanbaz.nucleus.application.entry.port.`in`.CreateEntryUseCase
 import de.cyanbaz.nucleus.application.entry.port.`in`.GetEntryUseCase
 import de.cyanbaz.nucleus.application.entry.port.`in`.ListEntriesUseCase
+import de.cyanbaz.nucleus.application.entry.port.out.EntryRepository
 import de.cyanbaz.nucleus.application.entry.service.EntryService
-import de.cyanbaz.nucleus.domain.entry.EntryRepository
 import java.time.Clock
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

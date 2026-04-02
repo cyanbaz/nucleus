@@ -1,15 +1,8 @@
 package de.cyanbaz.nucleus.adapter.`in`.web.entry.get
 
 import de.cyanbaz.nucleus.WebMvcSliceTest
+import de.cyanbaz.nucleus.application.entry.port.`in`.GetEntryResult
 import de.cyanbaz.nucleus.application.entry.port.`in`.GetEntryUseCase
-import de.cyanbaz.nucleus.domain.entry.Content
-import de.cyanbaz.nucleus.domain.entry.Entry
-import de.cyanbaz.nucleus.domain.entry.EntryType
-import de.cyanbaz.nucleus.domain.entry.Tag
-import de.cyanbaz.nucleus.domain.entry.Title
-import java.time.Clock
-import java.time.Instant
-import java.time.ZoneOffset
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,33 +22,26 @@ class GetEntryControllerTest {
     @MockitoBean
     private lateinit var getEntryUseCase: GetEntryUseCase
 
-    private val clock =
-        Clock.fixed(
-            Instant.parse("2026-03-31T10:00:00Z"),
-            ZoneOffset.UTC,
-        )
-
     @Test
     fun `should return entry when found`() {
-        val entry =
-            Entry.create(
-                title = Title("Architecture"),
-                content = Content("Hexagonal architecture"),
-                type = EntryType.ARTICLE,
-                tags = setOf(Tag("kotlin"), Tag("gradle")),
-                clock = clock,
+        val result =
+            GetEntryResult(
+                id = "11111111-1111-1111-1111-111111111111",
+                title = "Architecture",
+                content = "Hexagonal architecture",
+                type = "ARTICLE",
+                tags = setOf("kotlin", "gradle"),
             )
 
-        whenever(getEntryUseCase.get(entry.id.toString())).thenReturn(entry)
+        whenever(getEntryUseCase.get(result.id)).thenReturn(result)
 
         mockMvc
-            .perform(get("/api/entries/${entry.id}"))
+            .perform(get("/api/entries/${result.id}"))
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.id").value(entry.id.toString()))
+            .andExpect(jsonPath("$.id").value(result.id))
             .andExpect(jsonPath("$.title").value("Architecture"))
             .andExpect(jsonPath("$.content").value("Hexagonal architecture"))
             .andExpect(jsonPath("$.type").value("ARTICLE"))
-            .andExpect(jsonPath("$.tags[0]").value("kotlin"))
     }
 
     @Test

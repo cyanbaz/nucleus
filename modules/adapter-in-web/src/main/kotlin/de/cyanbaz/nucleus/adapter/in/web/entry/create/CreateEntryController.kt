@@ -1,6 +1,5 @@
 package de.cyanbaz.nucleus.adapter.`in`.web.entry.create
 
-import de.cyanbaz.nucleus.application.entry.command.CreateEntryCommand
 import de.cyanbaz.nucleus.application.entry.port.`in`.CreateEntryUseCase
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
@@ -19,18 +18,12 @@ class CreateEntryController(
     fun create(
         @RequestBody request: CreateEntryRequest,
     ): CreateEntryResponse {
-        val command =
-            CreateEntryCommand(
-                title = request.title,
-                content = request.content,
-                type = request.type,
-                tags = request.tags,
-            )
+        val command = request.toCommand()
 
-        val entryId = createEntryUseCase.create(command)
+        val result = createEntryUseCase.create(command)
 
         return CreateEntryResponse(
-            id = entryId.toString(),
+            id = result.id,
         )
     }
 }

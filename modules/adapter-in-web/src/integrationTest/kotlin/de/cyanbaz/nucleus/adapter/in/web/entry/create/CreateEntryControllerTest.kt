@@ -1,10 +1,8 @@
 package de.cyanbaz.nucleus.adapter.`in`.web.entry.create
 
 import de.cyanbaz.nucleus.WebMvcSliceTest
+import de.cyanbaz.nucleus.application.entry.port.`in`.CreateEntryResult
 import de.cyanbaz.nucleus.application.entry.port.`in`.CreateEntryUseCase
-import de.cyanbaz.nucleus.domain.entry.EntryId
-import de.cyanbaz.nucleus.domain.entry.EntryType
-import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
@@ -14,7 +12,8 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import tools.jackson.databind.ObjectMapper
 
 @WebMvcSliceTest
@@ -31,15 +30,18 @@ class CreateEntryControllerTest {
 
     @Test
     fun `should create entry and return created response`() {
-        val entryId = EntryId(UUID.fromString("11111111-1111-1111-1111-111111111111"))
+        val result =
+            CreateEntryResult(
+                id = "11111111-1111-1111-1111-111111111111",
+            )
 
-        whenever(createEntryUseCase.create(any())).thenReturn(entryId)
+        whenever(createEntryUseCase.create(any())).thenReturn(result)
 
         val request =
             CreateEntryRequest(
                 title = "Architecture",
                 content = "Hexagonal architecture with modular Gradle setup",
-                type = EntryType.ARTICLE,
+                type = CreateEntryType.ARTICLE,
                 tags = setOf("kotlin", "gradle"),
             )
 
@@ -49,7 +51,7 @@ class CreateEntryControllerTest {
                     .post("/api/entries")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)),
-            ).andExpect(MockMvcResultMatchers.status().isCreated)
-            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("11111111-1111-1111-1111-111111111111"))
+            ).andExpect(status().isCreated)
+            .andExpect(jsonPath("$.id").value(result.id))
     }
 }

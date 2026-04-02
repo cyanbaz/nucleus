@@ -20,11 +20,11 @@ class GetEntryController(
         getEntryUseCase.get(id)?.let { entry ->
             ResponseEntity.ok(
                 EntryResponse(
-                    id = entry.id.toString(),
-                    title = entry.title.value,
-                    content = entry.content.value,
-                    type = entry.type.name,
-                    tags = entry.tags.map { it.value }.toSet(),
+                    id = entry.id,
+                    title = entry.title,
+                    content = entry.content,
+                    type = entry.type,
+                    tags = entry.tags,
                 ),
             )
         } ?: ResponseEntity.notFound().build()

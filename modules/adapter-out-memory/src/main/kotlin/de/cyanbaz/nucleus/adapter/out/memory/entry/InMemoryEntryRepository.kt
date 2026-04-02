@@ -1,8 +1,8 @@
 package de.cyanbaz.nucleus.adapter.out.memory.entry
 
+import de.cyanbaz.nucleus.application.entry.port.out.EntryRepository
 import de.cyanbaz.nucleus.domain.entry.Entry
 import de.cyanbaz.nucleus.domain.entry.EntryId
-import de.cyanbaz.nucleus.domain.entry.EntryRepository
 import java.util.concurrent.ConcurrentHashMap
 
 class InMemoryEntryRepository : EntryRepository {

@@ -13,13 +13,13 @@ class ListEntriesController(
 ) {
     @GetMapping
     fun getById(): List<EntryResponse> =
-        listEntriesUseCase.list().map { entry ->
+        listEntriesUseCase.list().entries.map { entry ->
             EntryResponse(
-                id = entry.id.toString(),
-                title = entry.title.value,
-                content = entry.content.value,
-                type = entry.type.name,
-                tags = entry.tags.map { it.value }.toSet(),
+                id = entry.id,
+                title = entry.title,
+                content = entry.content,
+                type = entry.type,
+                tags = entry.tags,
             )
         }
 }

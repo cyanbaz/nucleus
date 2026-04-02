@@ -5,5 +5,6 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":modules:application"))
     implementation(project(":modules:domain"))
 }

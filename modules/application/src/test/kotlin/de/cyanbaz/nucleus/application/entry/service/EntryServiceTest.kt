@@ -1,10 +1,14 @@
 package de.cyanbaz.nucleus.application.entry.service
 
 import de.cyanbaz.nucleus.application.entry.command.CreateEntryCommand
+import de.cyanbaz.nucleus.application.entry.command.CreateEntryTypeCommand
+import de.cyanbaz.nucleus.application.entry.port.`in`.CreateEntryResult
+import de.cyanbaz.nucleus.application.entry.port.`in`.GetEntryResult
+import de.cyanbaz.nucleus.application.entry.port.`in`.ListEntriesResult
+import de.cyanbaz.nucleus.application.entry.port.out.EntryRepository
 import de.cyanbaz.nucleus.domain.entry.Content
 import de.cyanbaz.nucleus.domain.entry.Entry
 import de.cyanbaz.nucleus.domain.entry.EntryId
-import de.cyanbaz.nucleus.domain.entry.EntryRepository
 import de.cyanbaz.nucleus.domain.entry.EntryType
 import de.cyanbaz.nucleus.domain.entry.Tag
 import de.cyanbaz.nucleus.domain.entry.Title
@@ -27,17 +31,22 @@ class EntryServiceTest {
             CreateEntryCommand(
                 title = "Architecture",
                 content = "Hexagonal architecture with modular Gradle setup",
-                type = EntryType.ARTICLE,
+                type = CreateEntryTypeCommand.ARTICLE,
                 tags = setOf("Kotlin", "Gradle"),
             )
 
-        val entryId = service.create(command)
+        val result = service.create(command)
 
-        val savedEntry = repository.findById(entryId)
+        val savedEntry = repository.findById(EntryId.from(result.id))
 
-        assertThat(entryId).isNotNull
+        assertThat(result).isEqualTo(
+            CreateEntryResult(
+                id = result.id,
+            ),
+        )
+
         assertThat(savedEntry).isNotNull
-        assertThat(savedEntry!!.id).isEqualTo(entryId)
+        assertThat(savedEntry!!.id.toString()).isEqualTo(result.id)
         assertThat(savedEntry.title.value).isEqualTo("Architecture")
         assertThat(savedEntry.content.value).isEqualTo("Hexagonal architecture with modular Gradle setup")
         assertThat(savedEntry.type).isEqualTo(EntryType.ARTICLE)
@@ -62,9 +71,17 @@ class EntryServiceTest {
 
         repository.save(entry)
 
-        val foundEntry = service.get(entry.id.toString())
+        val result = service.get(entry.id.toString())
 
-        assertThat(foundEntry).isEqualTo(entry)
+        assertThat(result).isEqualTo(
+            GetEntryResult(
+                id = entry.id.toString(),
+                title = "Nucleus",
+                content = "A clean modular Spring Boot example",
+                type = "NOTE",
+                tags = setOf("kotlin"),
+            ),
+        )
     }
 
     @Test
@@ -93,9 +110,29 @@ class EntryServiceTest {
         repository.save(firstEntry)
         repository.save(secondEntry)
 
-        val entries = service.list()
+        val result = service.list()
 
-        assertThat(entries).containsExactlyInAnyOrder(firstEntry, secondEntry)
+        assertThat(result).isEqualTo(
+            ListEntriesResult(
+                entries =
+                    listOf(
+                        GetEntryResult(
+                            id = firstEntry.id.toString(),
+                            title = "Architecture",
+                            content = "Hexagonal architecture",
+                            type = "ARTICLE",
+                            tags = setOf("architecture"),
+                        ),
+                        GetEntryResult(
+                            id = secondEntry.id.toString(),
+                            title = "Gradle",
+                            content = "Convention plugins and version catalogs",
+                            type = "NOTE",
+                            tags = setOf("gradle"),
+                        ),
+                    ),
+            ),
+        )
     }
 
     @Test
