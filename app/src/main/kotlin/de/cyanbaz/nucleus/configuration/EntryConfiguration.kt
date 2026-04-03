@@ -1,4 +1,4 @@
-package de.cyanbaz.nucleus.entry.config
+package de.cyanbaz.nucleus.configuration
 
 import de.cyanbaz.nucleus.entry.adapter.outbound.memory.InMemoryEntryRepository
 import de.cyanbaz.nucleus.entry.application.CreateEntryService

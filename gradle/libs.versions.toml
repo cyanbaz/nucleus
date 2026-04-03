@@ -6,6 +6,7 @@ spring-dependency-management = "1.1.7"
 spotless = "8.4.0"
 assertj = "3.27.7"
 mockito = "6.3.0"
+archunit = "1.4.1"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -26,4 +27,5 @@ spring-web = { group = "org.springframework", name = "spring-web" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect" }
 jackson-module-kotlin = { group = "tools.jackson.module", name = "jackson-module-kotlin" }
 assertj-core = { group = "org.assertj", name = "assertj-core", version.ref = "assertj" }
+archunit = { group = "com.tngtech.archunit", name = "archunit", version.ref = "archunit" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito" }

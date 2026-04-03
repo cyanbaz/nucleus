@@ -13,7 +13,7 @@ dependencies {
 @Suppress("UnstableApiUsage")
 testing {
     suites {
-        named<JvmTestSuite>("integrationTest") {
+        named<JvmTestSuite>(TestSuites.INTEGRATION_TEST) {
             dependencies {
                 implementation(libs.spring.boot.starter.test)
             }

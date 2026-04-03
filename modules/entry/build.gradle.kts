@@ -5,13 +5,18 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.spring.boot.starter.webmvc)
+    implementation(libs.spring.web)
 }
 
 @Suppress("UnstableApiUsage")
 testing {
     suites {
-        named<JvmTestSuite>("integrationTest") {
+        named<JvmTestSuite>(TestSuites.TEST) {
+            dependencies {
+                implementation(libs.archunit)
+            }
+        }
+        named<JvmTestSuite>(TestSuites.INTEGRATION_TEST) {
             dependencies {
                 implementation(project(":modules:test-support"))
                 implementation(libs.spring.boot.starter.webmvc.test)

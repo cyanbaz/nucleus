@@ -40,12 +40,11 @@ A single **feature module** representing a bounded context.
 entry
  ├─ domain
  ├─ application
- ├─ adapter
- │   ├─ in
- │   │   └─ web
- │   └─ out
- │       └─ memory
- └─ config
+ └─ adapter
+     ├─ in
+     │   └─ web
+     └─ out
+         └─ memory
 ```
 
 #### `domain`
@@ -63,13 +62,8 @@ entry
 #### `adapter`
 
 * Infrastructure and delivery mechanisms
-* `in` → e.g. REST controllers
-* `out` → e.g. persistence implementations
-
-#### `config`
-
-* Spring configuration for the module
-* Wiring of adapters and application layer
+* `inbound` → e.g. REST controllers
+* `outbound` → e.g. persistence implementations
 
 ---
 
