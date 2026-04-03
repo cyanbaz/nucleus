@@ -1,13 +1,11 @@
 plugins {
-    id("nucleus-spring-boot")
+    id("nucleus-spring")
     id("nucleus-spring-test")
+    id("nucleus-jacoco")
 }
 
 dependencies {
-    implementation(project(":modules:entry"))
     implementation(libs.spring.boot.starter.webmvc)
-    implementation(libs.kotlin.reflect)
-    implementation(libs.jackson.module.kotlin)
 }
 
 @Suppress("UnstableApiUsage")
@@ -15,7 +13,9 @@ testing {
     suites {
         named<JvmTestSuite>("integrationTest") {
             dependencies {
-                implementation(libs.spring.boot.starter.test)
+                implementation(project(":modules:test-support"))
+                implementation(libs.spring.boot.starter.webmvc.test)
+                implementation(libs.jackson.module.kotlin)
             }
         }
     }

@@ -15,10 +15,8 @@ rootProject.name = "nucleus"
 
 listOf(
     ":app",
-    ":modules:application",
-    ":modules:domain",
-    ":modules:adapter-in-web",
-    ":modules:adapter-out-memory",
+    ":modules:entry",
+    ":modules:test-support",
 ).forEach {
     include(it)
 }

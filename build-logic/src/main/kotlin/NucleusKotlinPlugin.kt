@@ -6,6 +6,7 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
 @Suppress("unused")
 abstract class NucleusKotlinPlugin : Plugin<Project> {
@@ -27,6 +28,15 @@ abstract class NucleusKotlinPlugin : Plugin<Project> {
                             .toInt(),
                     ),
                 )
+            }
+
+            extensions.configure<KotlinJvmProjectExtension>("kotlin") {
+                compilerOptions {
+                    freeCompilerArgs.addAll(
+                        "-Xjsr305=strict",
+                        "-Xannotation-default-target=param-property",
+                    )
+                }
             }
 
             dependencies {
